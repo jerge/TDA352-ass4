@@ -64,11 +64,29 @@ public class CryptoLib {
 	public static int ModInv(int n, int m) {
 		// n^(Phi(m)) = 1 mod m => n * n^(Phi(m)-1) = 1
 		// Java's implementation of modulo doesn't work for large numbers, and since we weren't allowed to
+		while (n < 0) n += m;
+		for (int i = 0; i < m; i++) {
+			if (n*i % m == 1) return i;
+		}
+		/* Not permitted solution
 		int ep = EulerPhi(m)-1;
+		System.out.println(ep + ", " + Math.pow(n,ep) % m);
+		System.out.println();
 		BigInteger n2 = BigInteger.valueOf(n);
 		BigInteger nphi = n2.pow(ep);
 		nphi = nphi.mod(BigInteger.valueOf(m));
-		return nphi.intValue();
+		return nphi.intValue();*/
+		return 0;
+	}
+
+	// Since we're not allowed to use a mod for large numbers or power
+	private static int powerWithMod(int a, int b, int m) {
+		int sum = 1;
+		for (int i = 0; i < b; i++) {
+			sum *= a;
+			sum = sum % m;
+		}
+		return sum;
 	}
 
 	/**
@@ -76,33 +94,27 @@ public class CryptoLib {
 	 * Fermat Witness. Tests values from 2 (inclusive) to "n/3" (exclusive).
 	 **/
 	public static int FermatPT(int n) {
-		for (int a = 2; a <= n/3; a++) {
-			BigInteger s = BigInteger.valueOf(a).pow(n-1);
-			BigInteger as = s.mod(BigInteger.valueOf(n));
-			if (as.intValue() != 1) {
+		for (int a = 2; a <= n / 3; a++) {
+			int s = powerWithMod(a, n - 1, n);
+			if (s != 1) {
 				return a;
 			}
 		}
 		return 0;
 	}
 
-	/**
-	 * Returns the probability that calling a perfect hash function with
-	 * "n_samples" (uniformly distributed) will give one collision (i.e. that
-	 * two samples result in the same hash) -- where "size" is the number of
-	 * different output values the hash function can produce.
-	 **/
+		/**
+         * Returns the probability that calling a perfect hash function with
+         * "n_samples" (uniformly distributed) will give one collision (i.e. that
+         * two samples result in the same hash) -- where "size" is the number of
+         * different output values the hash function can produce.
+         **/
 	public static double HashCP(double n_samples, double size) {
 		double prob = 1;
 		for (int i = 1; i < n_samples; i++) {
 			prob *= 1-i/size;
 		}
 		return 1-prob;
-	}
-
-	private static double facHelp(double n, int stop) {
-		if (stop == 0) return 1;
-		return n*facHelp(n-1,stop-1);
 	}
 
 }
