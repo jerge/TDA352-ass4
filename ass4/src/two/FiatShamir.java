@@ -3,6 +3,7 @@ package two;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.math.BigInteger;
+import java.util.Random;
 
 public class FiatShamir {
 
@@ -19,7 +20,8 @@ public class FiatShamir {
     }
 
     public static void main(String[] args) {
-        String filename = "input.txt";
+        String path = "/home/jerge/git/TDA352-ass4/ass4/src/two/";
+        String filename = path + "input.txt";
         BigInteger N = BigInteger.ZERO;
         BigInteger X = BigInteger.ZERO;
         ProtocolRun[] runs = new ProtocolRun[10];
@@ -64,6 +66,15 @@ public class FiatShamir {
     private static BigInteger recoverSecret(BigInteger N, BigInteger X,
                                             ProtocolRun[] runs) {
         // TODO. Recover the secret value x such that x^2 = X (mod N).
+        BigInteger duplicate;
+        //for (int i = 0; i < 10; i++) {
+            int a = runs[2].c;
+            BigInteger v = runs[2].s;
+            BigInteger R = runs[2].R;
+
+        //}
+        //System.out.println(X.add(N.multiply(BigInteger.valueOf(9))).sqrt());
+        //return X.add(N.multiply(BigInteger.valueOf(8))).sqrt();
         return BigInteger.ZERO;
     }
 }

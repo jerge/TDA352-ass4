@@ -95,7 +95,7 @@ public class CryptoLib {
 	 **/
 	public static int FermatPT(int n) {
 		for (int a = 2; a <= n / 3; a++) {
-			int s = powerWithMod(a, n - 1, n);
+			int s = powerWithMod(a, n - 1, n); // s=a^(n-1) mod n
 			if (s != 1) {
 				return a;
 			}
