@@ -61,7 +61,8 @@ public class ElGamal {
         )))));
 
         BigInteger r;
-        for (int i = 0; i < 999; i++) {
+        // account for milliseconds
+        for (int i = 0; i < 1000; i++) {
             r = bigAdded.add(BigInteger.valueOf(i));
             if (c1.equals(g.modPow(r,p))) {
                 return r;

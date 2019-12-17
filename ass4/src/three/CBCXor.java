@@ -41,7 +41,6 @@ public class CBCXor {
         byte[] c0 = Arrays.copyOfRange(encrypted, 12, 24);
         byte[] key = xor3(iv,c0,first_block);
 
-        byte[] m0 = xor3(iv,c0,key);
 
         StringBuilder message = new StringBuilder();
         message.append(new String(first_block));
@@ -55,6 +54,9 @@ public class CBCXor {
         return message.toString();
     }
 
+    /**
+     * xor on 3 byte arrays
+     */
     private static byte[] xor3(byte[] a1, byte[] a2, byte[] a3) {
         byte[] a0 = new byte[a1.length];
         int i = 0;

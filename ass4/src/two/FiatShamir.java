@@ -3,7 +3,6 @@ package two;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.math.BigInteger;
-import java.util.Random;
 
 public class FiatShamir {
 
@@ -55,26 +54,35 @@ public class FiatShamir {
     /**
      * Recovers the secret used in this collection of Fiat-Shamir protocol runs.
      *
-     * @param N
+     * @param N also known as n
      *            The modulus
-     * @param X
+     * @param X also known as v
      *            The public component
      * @param runs
      *            Ten runs of the protocol.
-     * @return
+     *            R is the random value sent to the verifier := r^2 mod n
+     *            c is the challenge sent to the prover A := random e in {0,1}
+     *            s is the proof sent back to the verifier := rs^e mod n
+     * @return x also known as s
+     *            The secret key v=s^2 (mod n)
      */
     private static BigInteger recoverSecret(BigInteger N, BigInteger X,
                                             ProtocolRun[] runs) {
-        // TODO. Recover the secret value x such that x^2 = X (mod N).
-        BigInteger duplicate;
-        //for (int i = 0; i < 10; i++) {
-            int a = runs[2].c;
-            BigInteger v = runs[2].s;
-            BigInteger R = runs[2].R;
+        // Known: Ri=Rj => ri=rj=rx =>
+        // ai = rx*s^(ci)=rx, aj=rx*s^(cj) =>
+        // ai^(-1)*aj = x OR ai*aj^(-1) = x (one of the two in case c is different)
+        // Here we rely on ci != cj, to be able to distinguish x
 
-        //}
-        //System.out.println(X.add(N.multiply(BigInteger.valueOf(9))).sqrt());
-        //return X.add(N.multiply(BigInteger.valueOf(8))).sqrt();
+        BigInteger x;
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                // Check if x^2 = X (mod N)
+                x = runs[i].s.multiply(runs[j].s.modInverse(N));
+                if (X.equals(x.modPow(BigInteger.valueOf(2),N))) {
+                    return x.mod(N);
+                }
+            }
+        }
         return BigInteger.ZERO;
     }
 }

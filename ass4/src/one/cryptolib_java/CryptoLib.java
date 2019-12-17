@@ -4,7 +4,6 @@
 //   java CryptoLibTest
 package one.cryptolib_java;
 
-import java.math.BigInteger;
 
 public class CryptoLib {
 
@@ -17,7 +16,7 @@ public class CryptoLib {
 		// Note: as you can see in the test suite,
 		// your function should work for any (positive) value of a and b.
 
-		// For efficiency
+		// The algorithm prioritizes wrong between s and t when a == b, so this is a fix for the special case
 		if (a == b) {
 			return new int[]{a, 1, 0};
 		}
@@ -63,23 +62,14 @@ public class CryptoLib {
 	 **/
 	public static int ModInv(int n, int m) {
 		// n^(Phi(m)) = 1 mod m => n * n^(Phi(m)-1) = 1
-		// Java's implementation of modulo doesn't work for large numbers, and since we weren't allowed to
 		while (n < 0) n += m;
 		for (int i = 0; i < m; i++) {
 			if (n*i % m == 1) return i;
 		}
-		/* Not permitted solution
-		int ep = EulerPhi(m)-1;
-		System.out.println(ep + ", " + Math.pow(n,ep) % m);
-		System.out.println();
-		BigInteger n2 = BigInteger.valueOf(n);
-		BigInteger nphi = n2.pow(ep);
-		nphi = nphi.mod(BigInteger.valueOf(m));
-		return nphi.intValue();*/
 		return 0;
 	}
 
-	// Since we're not allowed to use a mod for large numbers or power
+	// Since we're not allowed to use BigInteger.modPow(BigInteger, BigInteger)
 	private static int powerWithMod(int a, int b, int m) {
 		int sum = 1;
 		for (int i = 0; i < b; i++) {

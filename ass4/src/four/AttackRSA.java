@@ -59,6 +59,8 @@ public class AttackRSA {
     private static BigInteger crt3(BigInteger[] N, BigInteger[] c) {
         BigInteger totN = N[0].multiply(N[1]).multiply(N[2]);
 
+        // Could also nest two for loops to do this for a more general case, but I did not feel the need
+
         BigInteger z0 = N[1].multiply(N[2]);
         BigInteger z1 = N[0].multiply(N[2]);
         BigInteger z2 = N[0].multiply(N[1]);
