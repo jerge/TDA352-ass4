@@ -1,0 +1,9 @@
+ 199806015278
+ - a report documenting your approach and the retrieved secret message if appropriate.
+
+I had to change the FileReader to read to the specific path of the input.txt file, so you'll have to change that in the code if you want to run it yourself (relative pathing did not work for some reason, furthermore I had to use java 8 jdk)
+
+After I understood that I was suppose to use the chinese remainder theorem it was very easy to implement it.
+I did it for the specific case with only three simultaneous congruences, since nothing more was required.
+I did not use the public key of the receiver's since I just assumed it to be three each time.
+Decoded Text: Alan Turing

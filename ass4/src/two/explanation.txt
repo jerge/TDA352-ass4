@@ -1,0 +1,12 @@
+ 199806015278
+ - a report documenting your approach and the retrieved secret message if appropriate.
+
+I had to change the FileReader to read to the specific path of the input.txt file, so you'll have to change that in the code if you want to run it yourself (relative pathing did not work for some reason, furthermore I had to use java 8 jdk)
+
+ This was the one that took the longest time for me since I was tired when writing and I got very confused about which variable was which
+ When I had figured out which variables where which I was better able to follow the description of the protocol that was linked.
+ I used the hint and looked at the R's, saw that runs[1].R == runs[9].R and then I wrote the program imperatively for only those two cases
+ I then expanded s, the proof sent back to the verifier and saw that I could isolate the secret if I were able to remove 'r'
+ Afterwards I wrote it for the more general case.
+I got:
+Think left and think right and think low and think high. Oh, the thinks you can think up if only you try! ------------------------- Dr. Seuss

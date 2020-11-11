@@ -1,0 +1,93 @@
+Part A:
+
+0. Y1Y2Y3Y4M1M2D1D2=19980601
+
+1.
+I chose to keep the variables for each vote as v1,v2,v3,v4 to make it easier for me to see and to prove how it worked for a more general case
+
+m1(x) = v1 - 1 * x + 0 * x^2 = v1 - x
+m2(x) = v2 - 9 * x + 6 * x^2
+m3(x) = v3 - 9 * x + 0 * x^2 = v3 - 9 * x
+m4(x) = v4 - 8 * x + 1 * x^2 = v4 - 8 * x + x^2
+
+
+mi sends mi(j) to Aj where i∈ {1,2,3,4}, j∈ {1,2,3}
+
+m1 sends to A1,A2,A3 the following: v1-1, v1-2, v1-3
+m2 sends to A1,A2,A3 the following: v2-3, v2+6, v2+27
+m3 sends to A1,A2,A3 the following: v3-9, v3-18, v3-27
+m4 sends to A1,A2,A3 the following: v4-7, v4-12, v4-15
+
+2.
+All auditors sums up the amount that m1,m2,m3,m4 have sent to them, i.e.
+A1 adds m1(1),m2(1),m3(1),m4(1) to 
+a1 = (v-1) + (v2-3) + (v3-9) + (v4-7) = v1+v2+v3+v4-20
+A2 does the same with mi(2)
+a2 = (v1-2) + (v2+6) + (v3-18) + (v4-12) = v1+v2+v3+v4-26
+And a3 does the same with mi(3)
+a3 = (v1-3) + (v2+27) + (v3-27) + (v4-15) = v1+v2+v3+v4-18
+
+3.
+Bi =             Π                 (j/(j-i))
+        {j∈{1,2,...,t+1}\{i}} 
+Following this everyone can calculate B1,B2,B3:
+B1 = 2/(2-1) * 3/(3-1) = 6/2 = 3
+B2 = 1/(1-2) * 3/(3-2) = 3/(-1) = -3
+B3 = 1/(1-3) * 2/(2-3) = 2/2 = 1
+
+Now everyone can calculate the outcome via inputting their values to the function y=a1*B1 + a2*B2 + a3*B3
+(Everyone got the emails of a1,a2,a3 and everyone could independently calculate B1,B2,B3)
+I'll use the notation V to mean v1+v2+v3+v4, also known as the outcome
+y= a1*B1 + a2*B2 + a3*B3 =
+ = (V-20)*3 + (V-26)*(-3) + (V-18) * 1
+ = V*3-60 - 3*V+78 + V-18
+ = 4V-3V + 78 - 78
+ = V
+
+4.
+If m1 really wants to make sure that the value V is positive he can edit his messages m1(j) to effectively give him more votes
+m1 requires 4 votes to guarantee that the outcome is positive, in the case that all v2,v3,v4 votes against him
+m1 can send the number mi(x)=4-x instead of m1(x)=v1-x to the auditors. 
+That way each of them will get 
+a1 = 4+v2+v3+v4-20
+a2 = 4+v2+v3+v4-26
+a3 = 4+v2+v3+v4-18
+if we do the same calculation for y but with these values we can simply substitute v1 with 4 and get:
+y= V-v1+4 = 4+v2+v3+v4 which effectively means that it's 100% chance that the value for V is positive
+
+There is however a problem with this from m1's standpoint
+If m1 did this and more than one of the other members says that they want to go to Liseberg then it's possible for the members to know that someone has cheated.
+If we have more than one of the other members vote '1' then V= 4+1+1-1 = 5 which obviously is impossible to get in a vote of 4 people
+Furthermore it becomes obvious that one person cheated in case the members talk among each other.
+In fact it should be impossible for V to become an uneven number if there are four votes. This means that to keep the V even, then v1 needs to be an uneven number.
+If v1 = 3 then m1 requires that exactly one of the other members votes positive, otherwise the result will be exactly four or more.
+If the result is 4, then one of the members that voted negative definitely knows that the result has been tampered with. If the result is more than 4 then as stated earlier it is obvious that someone has cheated
+If v1 = 5 then it is required that all other members voted negative to avoid suspiscion, since that means 5-1-1-1 = 2 which is a valid result for every member unless the members communicate their results.
+
+In conclusion, it's quite complicated for anyone to cheat without raising suspiscions from the other people, but it is possible
+
+
+------------
+
+1a.
+C->A: {C,{M}eA}eA   . C knows {M}eA and therefore needs A to decrypt the message
+A will therefore, according to the protocol respond with:
+A->C: {M}eC         . C has his own secret protocol and can therefore decrypt {M}ec -> M
+
+1b.
+This time C knows {A,{M}eB}eB and needs B to decrypt twice.
+C->B: {C,{A,{M}eB}eB}eB . C adds C to the message {A,{M}eB}eB and encrypts it with B's public key
+B->C: {A,{M}eB}eC       . B will therefore decrypt the message {A,{M}eB}eB once and send the contents back encrypted with C's public key.
+C->B: {C,{M}eB}eB       . B will now start another conversation with B where he uses the message that he got back, but he has decrypted it once and then removed the A so he only has {M}eB
+B->C: {M}eC             . B will treat the new conversation independently and follow the protocol to send back the message M encrypted with C's public key.
+Now C can simply decrypt {M}eC -> M
+
+2.
+For C to convince B that he is A he needs to send the first message to him in the setup {A,nA}eB
+This unfortunately mean that B will respond with his nonce to A and B can not decrypt the nonce's since it uses A's key
+Therefore we'll act like this:
+A->C: {A,na}eC  . We require that A tries to start a conversation with C
+C->B: {A,nA}eB  . Then B tries to start a conversation with B with the information from A
+B->A: {nA,nB}eA . B will therefore respond to A, but A will believe that it is C that is answering him and therefore respond to C
+A->C: {nB}eC    . A is now in a conversation with C and now C can know the nonce that B used (by decrypting {nB}eC) and therefore send the last message to B.
+C->B: {nB}eB    . C simply decrypted the last message to get nB and then encrypted it with B's public key to end the conversation with B thinking he's talking to A.

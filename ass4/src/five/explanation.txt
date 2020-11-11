@@ -1,0 +1,12 @@
+ 199806015278
+ - a report documenting your approach and the retrieved secret message if appropriate.
+
+I had to change the FileReader to read to the specific path of the input.txt file, so you'll have to change that in the code if you want to run it yourself (relative pathing did not work for some reason, furthermore I had to use java 8 jdk)
+
+I was stuck on this for a long time since I did not think that the milliseconds actually were suppose to be used, so I always had a wrong random number when I tried my algorithm
+I started, just like in FiatShamir by trying to identify what variables corresponded to which (there were some naming clashes in the slides and the program)
+It was quite easy to see how I would be able to identify 'm', since c2 was the only thing containing m that I had access to.
+It would be impossible to get the secret key 'x' from 'y' and use that to get 'm'', since that would be equivalent to solving the discrete log problem.
+I used c1 = g^r to see if I used the correct random number, which in my case was were the milliseconds were 483
+
+Decoded text: Crytanalysis doesn't break cryptosystems. Bruce Schneier breaks cryptosystems.

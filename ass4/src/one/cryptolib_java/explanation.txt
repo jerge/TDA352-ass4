@@ -1,0 +1,8 @@
+ 199806015278
+ - a report documenting your approach and the retrieved secret message if appropriate.
+
+I had to change the FileReader to read to the specific path of the input.txt file, so you'll have to change that in the code if you want to run it yourself (relative pathing did not work for some reason, furthermore I had to use java 8 jdk)
+
+ My approach for this assignment was to look at the wikipedia articles for each subassignment and then look for the mathematic description of the formula, translate it as imperatively as possible to code.
+ In this case there were many test cases to see how well my solution was doing. Furthermore the edge cases were also easy to see there, so I looked at the tests before writing to fix edge cases.
+ Since I wasn't allowed to use Math.pow I created my own powerWithMod function (a^b mod m)

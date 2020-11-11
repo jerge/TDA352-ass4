@@ -1,0 +1,56 @@
+1.
+Because each bit can be constructed in 2 ways and there are 8 bits for the last byte the probability is:
+(1/2)^8=2^(-8)=0.00390625
+2.
+Since there are now 16 bits that need to be fixed the probability is:
+(2^(-8)+2^(-16)+2^(-24)+2^(-32)+2^(-40)+2^(-48)+2^(-56)+2^(-64))=0.00392156862
+3.
+According to Bayes Theorem:
+2^(-8)/(2^(-8)+2^(-16)+2^(-24)+2^(-32)+2^(-40)+2^(-48)+2^(-56)+2^(-64))=
+=0.99609375~~99.6%
+4.
+According to the text:
+C=E(P+C'), (Ri+C')||C 'Decrypts To' D(C)+(Ri+C')
+This means that
+D(C)+(Ri+C')=D(E(P+C'))+(Ri+C')=(P+C')+(Ri+C')=P+Ri
+QED
+5.
+P=<b1,b2,b3,b4,b5,b6,b7,b8>, the P block with 8 bytes b1,...,b8.
+P+Ri=<b1+r1,b2+r2,b3+r3,b4+r4,b5+r5,b6+r6,b7+r7,b8+i>
+This means the last byte of P+Ri is b8+i and according to question 4, that is equal to 0, in such a case were the padding is correct b8+i=0 => b8=i
+6.
+In the verification algorithm for MAC, which is described in slides for lecture 3:
+V: K x M x T -> {yes,no}. This entails that the verification algorithm is dependent on the Message size
+If we make the message longer it should therefore take longer time to compute the verification.
+Therefore we just add a bunch of blocks to the message.
+7.
+According to the same logic as used in question 5:
+<r1,r2,r3,r4,r5,r6,i,b8+1> => b7+i=1 => b7 = i+1
+8.
+<r1,r2,r3,r4,r5,i,b7+2,b8+2>
+9.
+When correct padding =>
+change first byte in the block to another one
+    if it's wrong padding, the padding type is 7
+    else:
+change second byte in the block to another one
+    if it's wrong padding, the padding type is 6
+    else:
+change third byte in the block to another one
+    if it's wrong padding, the padding type is 5
+    else:
+change fourth byte in the block to another one
+    if it's wrong padding, the padding type is 4
+    else:
+change fifth byte in the block to another one
+    if it's wrong padding, the padding type is 3
+    else:
+change sixth byte in the block to another one
+    if it's wrong padding, the padding type is 2
+    else:
+change seventh byte in the block to another one
+    if it's wrong padding, the padding type is 1
+    else the padding type is 0
+
+If we know that the padding type is for example 7, then we know the last 8 bytes of the message to be the same as what we inputted originally.
+If we instead thought it was 4, then we'd know that the last 5 bytes of the message are the last 5 bytes from the originally sent message.

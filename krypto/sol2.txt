@@ -1,0 +1,54 @@
+Assignment 2 - Erik Jergéus
+%g=12
+1A
+i:            0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10| 11 |... repeats the same pattern
+g^i (mod 23): 1 | 12| 6 | 3 | 13| 18| 9 | 16| 8 | 4 | 2 | 1  |... repeats the same pattern
+
+1B.2
+I at first misunderstood the question and proved that it was closed under multiplication this way:
+    ∀ a ∈ S it holds that g^i = a mod p; i,j,p∈ℕ
+    If ∀a,b∈S, g^i = a, g^j= b (mod p) then a*b=g^i*g^j=g^(i+j);
+    Since i+j∈ℕ, then g^(i+j)∈S
+
+Then I did it the way that was hinted in the exercise
+    if two arbitrary numbers within the set {g^i|0<=i<q} are called g^a and g^b, (0 <= a,b < q)
+    Then g^a*g^b = g^(a+b), this can be written as. g^(k*q+(a+b-k*q)) were k is the largest integer possible such that 0<= a*b-k*q < q.
+    In that case g^(a+b) = g^(k*q) * g^(a+b-k*q) = (g^q)^k * g^(a+b-k*q) = 1^k * g^(a+b-k*q) = 1 * g^(a+b-k*q), since a+b-k*q ∈ {0 <= i < q}, then g^(a+b-k*q)∈{g^i|0<=i<q} 
+    QED
+
+
+------------------------------------
+%X=16, m=11
+2A
+h=X=16
+According to the El Gamal scheme, h=g^x. =>
+16=g^x; if we look in the table we see that i = 7 => g^i (mod 23) = 16
+Therefore x=7
+
+2B
+1. Pick random value r ∈ Z_11 = {1,2,...,10} & compute c1 = g^r mod 23
+I chose r = 3 => c1 = 12^3≅3 (mod 23)
+2. c2 = m*h^r. 11*16^3≅11*(12^7)^3=11*12^(3*7)≅11*12^10≅22
+
+c=(3,22)
+
+2C
+1. Compute k=c1^x = 3^7≅(12^3)^7=12^(21)≅12^10≅2 (mod 23)
+2. m=c2*k^(-1)=c2*c1^(-x)
+m=c2*k^(-1)≅22*2^10=22*1024≅22*12≅11 (mod 23)
+m=c2*c1^(-x)=22*3^(-7)≅22*3^4≅22*12^(12)≅22*12≅11 (mod 23)
+I was unsure if you wanted me to use c2*k^(-1) or c2*c1^(-x), so I showed both
+
+I recieved the same m after encrypting and decrypting, which is good
+
+---------------------------------------------
+%x=7, c: (8,10)(4,5)(8,18)
+3A
+My public key is given as: (ℤ_23,12,11,16)
+
+3B
+m=c2*c1^(-x). Note during many steps I use the fact that g^i = g^i*k, k∈ℤ, with negative k.
+10*8^(-7)≅10*(12^8)^(-7)=10*12^(-56)≅10*12^(-1)≅10*12^10≅10*2=20 => 'T'
+5*4^(-7)≅5*(12^9)^(-7)=5*12^(-63)=5*12^(-8)≅5*12^3≅5*3=15 => 'O'
+18*8^(-7)≅18*(12^8)^(-7)=18*12^(-56)≅18*12^10≅18*2≅36≅13 => 'M'
+The name is 'Tom', which is short for Thomas
